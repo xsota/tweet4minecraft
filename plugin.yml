@@ -10,6 +10,12 @@ commands:
     usage: /<command>
     permission: tweet4minecraft.basic    
     permission-message: You don\'t have <permission>
+  
+  login:
+    description: login command.
+    usage: /<command>
+    permission: tweet4minecraft.basic
+    permission-message: you don\'t have <permission>
 
 permissions:
   tweet4minecraft.*:
