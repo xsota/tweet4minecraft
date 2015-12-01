@@ -3,6 +3,9 @@ package com.xsota;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import commands.Login;
+import commands.Tweet;
+
 
 
 public class Tweet4minecraft extends JavaPlugin {
@@ -12,10 +15,11 @@ public class Tweet4minecraft extends JavaPlugin {
 		this.saveDefaultConfig();
 		
 		FileConfiguration config = this.getConfig();
-		//this.getConfig().set("API.KEY", "SuucnlrR6yAOXz3AQaJG4Q");
-		//this.getConfig().set("API.SECRET", "wCL1YIuGH8fIKvBfXKrBbacGF8mhJHBR3A11MpmyPw");
 		
-		//if(config.get("API.KEY"))
+		//set command
+		getCommand("tweet").setExecutor(new Tweet(config));
+		getCommand("login").setExecutor(new Login(config));
+		
 	    
 		this.saveConfig();
 	}
