@@ -1,0 +1,27 @@
+name: tweet4minecraft
+main: com.xsota.Tweet4minecraft
+version: 0.0.0
+author: xsota
+website: https://github.com/xsota/tweet4minecraft
+
+commands:
+  tweet:
+    description: This is a tweet command.
+    usage: /<command>
+    permission: tweet4minecraft.basic    
+    permission-message: You don\'t have <permission>
+  
+  login:
+    description: login command.
+    usage: /<command>
+    permission: tweet4minecraft.basic
+    permission-message: you don\'t have <permission>
+
+permissions:
+  tweet4minecraft.*:
+    description: Gives access to all commands
+    children:
+      tweet4minecraft.basic: true
+  tweet4minecraft.basic:
+    description: Gives access to basic commands
+    default: true
