@@ -45,6 +45,8 @@ public class Login implements CommandExecutor {
 		Player player = null;
 		if (sender instanceof Player) {
 			player = (Player) sender;			
+		} else {
+			return false;
 		}
 				
 		AccessToken accessToken = null;
