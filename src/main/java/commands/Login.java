@@ -11,9 +11,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.xsota.Tweet4minecraft;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
@@ -26,14 +27,11 @@ public class Login implements CommandExecutor {
 	HashMap<String,RequestToken> requestTokens ;
 	
 
-	public Login(JavaPlugin plugin) {
+	public Login(Tweet4minecraft plugin) {
 		this.plugin = plugin;
+		this.twitter = plugin.twitter;		
 		this.config = plugin.getConfig();
-		this.requestTokens = new HashMap<String,RequestToken>();
-		String apiKey = config.getString("API.KEY");
-		String apiSecret = config.getString("API.SECRET");
-		this.twitter = TwitterFactory.getSingleton();
-		this.twitter.setOAuthConsumer(apiKey, apiSecret);
+		this.requestTokens = new HashMap<String,RequestToken>();			
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String arg, String[] args) {
