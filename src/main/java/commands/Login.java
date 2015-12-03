@@ -1,18 +1,15 @@
 package commands;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -21,34 +18,64 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 public class Login implements CommandExecutor {
+	Twitter twitter;
 	FileConfiguration config;
-	String apiKey;
-	String apiSecret;
+	JavaPlugin plugin;	
 	String oauthToken;
 	String oauthTokenSecret;
+	HashMap<String,RequestToken> requestTokens ;
+	
 
-	public Login(FileConfiguration config) {
-		this.config = config;
-		apiKey = config.getString("API.KEY");
-		apiSecret = config.getString("API.SECRET");
+	public Login(JavaPlugin plugin) {
+		this.plugin = plugin;
+		this.config = plugin.getConfig();
+		this.requestTokens = new HashMap<String,RequestToken>();
+		String apiKey = config.getString("API.KEY");
+		String apiSecret = config.getString("API.SECRET");
+		this.twitter = TwitterFactory.getSingleton();
+		this.twitter.setOAuthConsumer(apiKey, apiSecret);
 	}
 
-	public boolean onCommand(CommandSender sender, Command command, String arg2, String[] arg3) {
+	public boolean onCommand(CommandSender sender, Command command, String arg, String[] args) {
+		String pin = null;
+		if(args.length == 1){
+			pin = args[0];
+		}
+		
+		Player player = null;
+		if (sender instanceof Player) {
+			player = (Player) sender;			
+		}
+				
 		AccessToken accessToken = null;
 		RequestToken requestToken = null;
-
-		Twitter twitter = TwitterFactory.getSingleton();
-
-		twitter.setOAuthConsumer(apiKey, apiSecret);
+		if(requestTokens.containsKey(player.getName())){
+			requestToken = requestTokens.get(player.getName());
+		}
+		
+		if(pin != null && requestToken != null){
+			try {				
+				accessToken = twitter.getOAuthAccessToken(requestToken, pin);				
+				config.set(player.getName()+".accessToken", accessToken.getToken());
+				config.set(player.getName()+".accessTokenSecret", accessToken.getTokenSecret());				
+				plugin.saveConfig();
+				Bukkit.broadcastMessage("ログイン成功");
+				return true;
+			} catch (TwitterException e) {				
+				Bukkit.broadcastMessage("ログイン失敗:"+e);
+				return false;
+			}
+		}
 
 		try {
 			requestToken = twitter.getOAuthRequestToken();
+			requestTokens.put(player.getName(), requestToken);
 		} catch (TwitterException e) {
-			// そのうちエラー処理書くよ
+			return false;
 		}
-		Bukkit.broadcastMessage("ログインコマンド");
 		Bukkit.broadcastMessage("ログインしてね" + requestToken.getAuthorizationURL());
-
+		
+		plugin.saveConfig();
 		return true;
 	}
 }
