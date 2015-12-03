@@ -71,6 +71,7 @@ public class Login implements CommandExecutor {
 			requestToken = twitter.getOAuthRequestToken();
 			requestTokens.put(player.getName(), requestToken);
 		} catch (TwitterException e) {
+			Bukkit.broadcastMessage("ログインエラー:"+e);
 			return false;
 		}
 		Bukkit.broadcastMessage("ログインしてね" + requestToken.getAuthorizationURL());
