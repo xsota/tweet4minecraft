@@ -1,0 +1,14 @@
+#java
+*.class
+.mtj.tmp/
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+#emacs
+*~
+\#*\#
+
+#osx
+.DS_Store
