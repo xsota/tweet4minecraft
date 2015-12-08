@@ -2,3 +2,4 @@ API:
   KEY: "api key here"
   SECRET: "api secret here"
 SERVER_ADMIN: xsota
+DEATH_TWEET: https://github.com/xsota/tweet4minecraft

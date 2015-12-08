@@ -18,9 +18,9 @@ public class MyListener implements Listener{
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
-		final String DEATH_MESSAGE = event.getDeathMessage();		
+		final String DEATH_MESSAGE = event.getDeathMessage()+" ";
 		final String playerName = event.getEntity().getName();
 		
-		Tweet.send(config.getString("SERVER_ADMIN"), DEATH_MESSAGE);
+		Tweet.send(config.getString("SERVER_ADMIN"), DEATH_MESSAGE+config.getString("DEATH_TWEET"));
 	}
 }
