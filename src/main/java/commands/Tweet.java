@@ -16,14 +16,17 @@ import twitter4j.auth.AccessToken;
 public class Tweet implements CommandExecutor{
 	static Twitter twitter;
 	static FileConfiguration config;
+	static Tweet4minecraft plugin;
+	
 	String apiKey;
 	String apiSecret;
 	String oauthToken ;
 	String oauthTokenSecret;
 	
-	public Tweet(Tweet4minecraft plugin) {		
-		config = plugin.getConfig();
-		twitter = plugin.twitter;
+	public Tweet(Tweet4minecraft plugin) {
+		Tweet.plugin = plugin;
+		Tweet.config = plugin.getConfig();
+		Tweet.twitter = plugin.twitter;
 		apiKey = config.getString("API.KEY");
 		apiSecret = config.getString("API.SECRET");				
 	}
@@ -39,10 +42,10 @@ public class Tweet implements CommandExecutor{
 		
 		try {		
 			twitter.updateStatus(text);
-			Bukkit.broadcastMessage("ツイート成功");
+			plugin.getLogger().info("ツイート成功");
 			return true;
 		} catch (TwitterException e) {			
-			Bukkit.broadcastMessage("ツイート失敗"+e);
+			plugin.getLogger().info("ツイート失敗"+e);
 			return false;
 		}
 	}
@@ -61,7 +64,7 @@ public class Tweet implements CommandExecutor{
 			return false;
 		}
 		
-		return this.send(playerName,String.join(" ", args));	
+		return Tweet.send(playerName,String.join(" ", args));	
 		
 	}
 }
