@@ -14,21 +14,21 @@ import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 
 public class Tweet implements CommandExecutor{
-	Twitter twitter;
-	FileConfiguration config;
+	static Twitter twitter;
+	static FileConfiguration config;
 	String apiKey;
 	String apiSecret;
 	String oauthToken ;
 	String oauthTokenSecret;
 	
 	public Tweet(Tweet4minecraft plugin) {		
-		this.config = plugin.getConfig();
-		this.twitter = plugin.twitter;
+		config = plugin.getConfig();
+		twitter = plugin.twitter;
 		apiKey = config.getString("API.KEY");
 		apiSecret = config.getString("API.SECRET");				
 	}
 
-	public boolean send(String playerName, String text){
+	public static boolean send(String playerName, String text){
 		String token = config.getString(playerName+".accessToken");
 		String tokenSecret = config.getString(playerName+".accessTokenSecret");
 		

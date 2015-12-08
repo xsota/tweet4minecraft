@@ -1,3 +1,4 @@
 API:
   KEY: "api key here"
   SECRET: "api secret here"
+SERVER_ADMIN: xsota

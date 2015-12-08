@@ -25,6 +25,9 @@ public class Tweet4minecraft extends JavaPlugin {
 		getCommand("tweet").setExecutor(new Tweet(this));
 		getCommand("login").setExecutor(new Login(this));
 
+		//set listener
+		getServer().getPluginManager().registerEvents(new MyListener(this), this);
+		
 		this.saveConfig();
 	}
 
