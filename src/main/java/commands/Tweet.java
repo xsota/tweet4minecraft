@@ -28,30 +28,40 @@ public class Tweet implements CommandExecutor{
 		apiSecret = config.getString("API.SECRET");				
 	}
 
+	public boolean send(String playerName, String text){
+		String token = config.getString(playerName+".accessToken");
+		String tokenSecret = config.getString(playerName+".accessTokenSecret");
+		
+		AccessToken accessToken = null;
+		
+		accessToken =  new AccessToken(token,tokenSecret);
+		twitter.setOAuthAccessToken(accessToken);
+		
+		try {		
+			twitter.updateStatus(text);
+			Bukkit.broadcastMessage("ツイート成功");
+			return true;
+		} catch (TwitterException e) {			
+			Bukkit.broadcastMessage("ツイート失敗"+e);
+			return false;
+		}
+	}
+	
 	public boolean onCommand(CommandSender sender, Command command, String arg, String[] args) {	
 		Player player = null;
+		String playerName = null;
 		
 		if (sender instanceof Player) {
 			player = (Player) sender;
-			AccessToken accessToken = null;
-			String playerName = player.getName();
-			String token = config.getString(playerName+".accessToken");
-			String tokenSecret = config.getString(playerName+".accessTokenSecret");
+		
+			 playerName = player.getName();
 			
-			accessToken =  new AccessToken(token,tokenSecret);
-			twitter.setOAuthAccessToken(accessToken);
 		} else {
 			Bukkit.broadcastMessage("ログイン失敗");
 			return false;
 		}
 		
-		try {		
-			twitter.updateStatus(String.join(" ", args));
-			Bukkit.broadcastMessage("ツイート成功");
-		} catch (TwitterException e) {			
-			Bukkit.broadcastMessage("ツイート失敗"+e);
-			return false;
-		}
-		return true;
+		return this.send(playerName,String.join(" ", args));	
+		
 	}
 }
