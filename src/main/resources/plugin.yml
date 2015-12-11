@@ -13,7 +13,7 @@ commands:
   
   login:
     description: login command.
-    usage: /<command>
+    usage: /<command> [pin]
     permission: tweet4minecraft.basic
     permission-message: you don\'t have <permission>
 
