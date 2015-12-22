@@ -3,3 +3,4 @@ API:
   SECRET: "api secret here"
 SERVER_ADMIN: xsota
 DEATH_TWEET: https://github.com/xsota/tweet4minecraft
+ENABLE_DEATH_TWEET: false

@@ -21,7 +21,7 @@ public class MyListener implements Listener{
 		final String DEATH_MESSAGE = event.getDeathMessage();
 		final String playerName = event.getEntity().getName();
 		
-		if (event.getEntity().isOp() == false) {
+		if (event.getEntity().isOp() == false && this.config.getBoolean("ENABLE_DEATH_TWEET")) {
 			Tweet.send(config.getString("SERVER_ADMIN"), playerName+"が死んでしまった "+config.getString("DEATH_TWEET"));
 		}
 	}
